@@ -1,7 +1,10 @@
 import re
+import openpyxl
+from openpyxl import Workbook, load_workbook
+
 #solicita dados 
 nome = input(str("digite seu nome: "))
-
+    
 idade = input("digite sua idade: ")
 
 #cria uma lista de generos
@@ -69,7 +72,7 @@ while True:
         
 #solicita um numéro de telefone
 numero_tele = input("Digite seu numero com ddd: ")
-
+  
 #mensagem dizendo que finalizou o cadastro e refornecendo as informações
 print("Cadastro comcluido suas informações são:")
 print('''Nome: {}
@@ -81,3 +84,16 @@ Numero: {}'''.format(nome,
       endereço, numero_do_endereço, complemento,
       email,
       numero_tele))
+
+#cria uma planilia com o excel com as informações
+try:
+    workbook = load_workbook('BD_python.xlsx')
+    sheet = workbook.active
+except FileNotFoundError:
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.append(['Nome','Idade','Endereço', 'Numero_do_endereço', 'Complemento','Email','Numero de telefone'])
+
+sheet.append([nome, idade, endereço, numero_do_endereço, complemento, email ,numero_tele])
+
+workbook.save('BD_python.xlsx')
